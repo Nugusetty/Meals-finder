@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Categories</title>
+    <style>
+      .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .image-grid div {
+        margin: 10px;
+      }
+      .image-grid img {
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+      }
+      .moved-items {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 20px;
+        border: 1px solid #f53462;
+      }
+      .meal-item {
+        display: flex;
+        text-align: center;
+        border: 2px;
+        border-radius: 2px solid rgb(245, 228, 98);
+      }
+      .meal-item img {
+        width: 150px;
+        height: 150px;
+        margin: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image-grid" id="imageGrid">
+      <!-- Categories will be loaded here dynamically -->
+    </div>
+
+    <div class="moved-items" id="movedItems">
+      <h3>Meals:</h3>
+    </div>
+
+    <script>
+      // Function to fetch categories from the API
+      async function fetchCategories() {
+        const apiUrl =
+          "https://www.themealdb.com/api/json/v1/1/categories.php?";
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          // Populate the image grid with categories
+          const imageGrid = document.getElementById("imageGrid");
+          data.categories.forEach((category) => {
+            const categoryDiv = document.createElement("div");
+            const categoryImg = document.createElement("img");
+            categoryImg.src = category.strCategoryThumb;
+            categoryImg.alt = category.strCategory;
+            categoryImg.dataset.category = category.strCategory;
+
+            categoryImg.onclick = displayCategoryMeals;
+
+            categoryDiv.appendChild(categoryImg);
+            imageGrid.appendChild(categoryDiv);
+          });
+        } catch (error) {
+          console.error("Error fetching categories:", error);
+        }
+      }
+
+      // Function to display meals of the clicked category
+      async function displayCategoryMeals(event) {
+        const category = event.target.dataset.category;
+        const apiUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          // Clear the moved items section
+          const movedItemsDiv = document.getElementById("movedItems");
+          movedItemsDiv.innerHTML = `<h3>${category} Meals:</h3>`;
+
+          // Populate the moved items section with meals of the clicked category
+          data.meals.forEach((meal) => {
+            const mealDiv = document.createElement("div");
+            mealDiv.classList.add("meal-item");
+            const mealImg = document.createElement("img");
+            mealImg.src = meal.strMealThumb;
+            const mealName = document.createElement("p");
+            mealName.textContent = meal.strMeal;
+
+            mealDiv.appendChild(mealImg);
+            mealDiv.appendChild(mealName);
+            movedItemsDiv.appendChild(mealDiv);
+          });
+        } catch (error) {
+          console.error(`Error fetching ${category} items:`, error);
+        }
+      }
+
+      // Fetch categories when the page loads
+      window.onload = fetchCategories;
+    </script>
+  </body>
+</html>

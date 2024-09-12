@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hamburger Menu</title>
+    <style>
+      /* Style for the hamburger icon */
+      .hamburger {
+        cursor: pointer;
+        display: inline-block;
+        padding: 10px;
+      }
+
+      .hamburger div {
+        width: 35px;
+        height: 4px;
+        background-color: rgb(193, 102, 16);
+        margin: 5px 0;
+      }
+
+      /* Style for the menu */
+      .menu {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 200px;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+
+      .menu ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .menu ul li {
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .menu ul li:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Close button for the menu */
+      .close-btn {
+        cursor: pointer;
+        text-align: right;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Menu List -->
+    <div class="menu" id="menu">
+      <div class="close-btn" onclick="toggleMenu()">✖</div>
+      <ul>
+        <li>Beef</li>
+        <li>Chicken</li>
+        <li>Dessert</li>
+        <li>Lamb</li>
+        <li>Miscellaneous</li>
+        <li>Pasta</li>
+        <li>Pork</li>
+        <li>Seafood</li>
+        <li>Side</li>
+        <li>Starter</li>
+        <li>Vegan</li>
+        <li>Vegetarian</li>
+        <li>Breakfast</li>
+        <li>Goat</li>
+      </ul>
+    </div>
+
+    <script>
+      // Function to toggle the menu
+      function toggleMenu() {
+        const menu = document.getElementById("menu");
+        if (menu.style.display === "block") {
+          menu.style.display = "none";
+        } else { 
+          menu.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
